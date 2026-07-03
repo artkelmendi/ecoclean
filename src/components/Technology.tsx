@@ -30,7 +30,7 @@ export default function Technology() {
 
   return (
     <section id="teknologjia" ref={containerRef} className="relative h-[320vh] bg-paper">
-      <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
+      <div className="sticky top-0 flex h-svh items-center justify-center overflow-hidden">
         <motion.div
           style={{ scale, borderRadius: radius }}
           className="relative h-full w-full overflow-hidden"

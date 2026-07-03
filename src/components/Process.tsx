@@ -20,7 +20,7 @@ export default function Process() {
 
   return (
     <section id="procesi" ref={containerRef} className="relative h-[300vh] bg-mist">
-      <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
+      <div className="sticky top-0 flex h-svh flex-col justify-center overflow-hidden">
         <div className="container-site mb-10">
           <p className="eyebrow">{t.process.eyebrow}</p>
           <h2 className="h-display mt-5 max-w-3xl text-[clamp(2rem,4.6vw,3.6rem)] leading-[1.05]">

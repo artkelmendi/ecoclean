@@ -135,7 +135,7 @@ export default function WipeClean() {
 
         <div
           ref={wrapRef}
-          className="relative mx-auto max-w-4xl cursor-crosshair touch-none select-none overflow-hidden rounded-4xl shadow-[0_30px_80px_-30px_rgba(9,59,134,0.4)]"
+          className="relative mx-auto max-w-4xl cursor-crosshair select-none overflow-hidden rounded-4xl shadow-[0_30px_80px_-30px_rgba(9,59,134,0.4)] [touch-action:pan-y]"
           onPointerMove={(e) => wipe(e.clientX, e.clientY)}
           onPointerDown={(e) => {
             lastPoint.current = null;
