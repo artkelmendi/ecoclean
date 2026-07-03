@@ -1,15 +1,30 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { useLang } from "@/lib/i18n";
-import { LogoMark } from "./Logo";
+import { LogoMark, MARK_PATH_A, MARK_PATH_B, MARK_VIEWBOX } from "./Logo";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+const SPIN_COOLDOWN_MS = 2800; // one hover-spin at a time; no retrigger mid-animation
+
 export default function Hero({ started }: { started: boolean }) {
   const { t } = useLang();
+
+  // Entry: mark arrives spinning fast (-720°) and settles at 0°.
+  // Hover: adds one +360° turn, guarded by a cooldown so it can't stack or glitch.
+  const [rotation, setRotation] = useState(0);
+  const lastSpinAt = useRef(0);
+
+  const hoverSpin = () => {
+    const now = Date.now();
+    if (now - lastSpinAt.current < SPIN_COOLDOWN_MS) return;
+    lastSpinAt.current = now;
+    setRotation((r) => r + 360);
+  };
 
   const stagger = (i: number) => ({
     initial: { y: 60, opacity: 0 },
@@ -28,6 +43,15 @@ export default function Hero({ started }: { started: boolean }) {
             "radial-gradient(closest-side, rgba(41,123,245,0.16), rgba(41,123,245,0.05) 60%, transparent)",
         }}
       />
+
+      {/* drifting stroked logo outlines */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <DriftingMark className="left-[4%] top-[18%] w-28" duration={26} drift={26} rotate={10} />
+        <DriftingMark className="right-[8%] top-[8%] w-40" duration={34} drift={-32} rotate={-8} delay={3} />
+        <DriftingMark className="left-[34%] top-[64%] w-20" duration={22} drift={20} rotate={14} delay={6} />
+        <DriftingMark className="right-[26%] top-[72%] w-24" duration={30} drift={-24} rotate={-12} delay={1.5} />
+        <DriftingMark className="left-[14%] top-[84%] w-32 hidden lg:block" duration={38} drift={28} rotate={6} delay={9} />
+      </div>
 
       <div className="container-site relative">
         <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
@@ -82,61 +106,49 @@ export default function Hero({ started }: { started: boolean }) {
 
           {/* right: the living brand mark */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.85 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={started ? { opacity: 1, scale: 1 } : {}}
             transition={{ delay: 0.55, duration: 1.1, ease }}
-            className="relative mx-auto flex aspect-square w-full max-w-[26rem] items-center justify-center"
+            className="relative mx-auto flex aspect-square w-full max-w-[24rem] items-center justify-center"
           >
-            {/* orbit rings */}
-            <div aria-hidden className="absolute inset-0 rounded-full border border-brand-100" />
-            <div aria-hidden className="absolute inset-[12%] rounded-full border border-dashed border-brand-200/70" />
-            <motion.div
-              aria-hidden
-              className="absolute inset-0"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-            >
-              <span className="absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-400" />
-              <span className="absolute bottom-[6%] right-[12%] h-2 w-2 rounded-full bg-brand-200" />
-            </motion.div>
-
-            {/* glow */}
+            {/* soft glow behind the mark */}
             <div
               aria-hidden
-              className="absolute inset-[18%] rounded-full blur-2xl"
-              style={{ background: "radial-gradient(closest-side, rgba(41,123,245,0.25), transparent)" }}
+              className="absolute inset-[20%] rounded-full blur-3xl"
+              style={{ background: "radial-gradient(closest-side, rgba(41,123,245,0.18), transparent)" }}
             />
 
-            {/* the spinning swirl mark — same motion language as the intro */}
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
-              className="relative w-[52%]"
+            {/* the swirl mark: spins in fast, settles, and does one guarded spin on hover */}
+            <div
+              className="relative flex w-[58%] cursor-pointer flex-col items-center"
+              onMouseEnter={hoverSpin}
             >
-              <LogoMark className="h-auto w-full drop-shadow-[0_20px_45px_rgba(41,123,245,0.35)]" />
-            </motion.div>
+              <motion.div
+                initial={{ rotate: -720 }}
+                animate={{ rotate: started ? rotation : -720 }}
+                transition={{
+                  duration: rotation === 0 ? 1.7 : 1.0,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="w-[76%]"
+              >
+                <LogoMark className="h-auto w-full drop-shadow-[0_20px_45px_rgba(41,123,245,0.35)]" />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={started ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 1.5, duration: 0.7, ease }}
+                className="mt-5 select-none text-center font-display"
+              >
+                <span className="block text-2xl font-semibold lowercase tracking-tight text-[#B9BEC7]">
+                  eco <span className="text-ink">clean</span>
+                </span>
+                <span className="mt-1 block text-[0.58rem] font-medium uppercase tracking-[0.5em] text-[#B9BEC7]">
+                  with us
+                </span>
+              </motion.div>
+            </div>
 
-            {/* floating stat chips */}
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -left-2 top-[16%] rounded-2xl border border-ink/5 bg-white/90 px-5 py-3 text-center shadow-[0_18px_40px_-18px_rgba(9,59,134,0.45)] backdrop-blur sm:left-0"
-            >
-              <div className="font-display text-2xl font-extrabold text-brand-600">24h</div>
-              <div className="text-[0.65rem] font-medium uppercase tracking-wider text-ink-faint">
-                {t.hero.statOne}
-              </div>
-            </motion.div>
-            <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
-              className="absolute -right-2 bottom-[14%] rounded-2xl border border-ink/5 bg-white/90 px-5 py-3 text-center shadow-[0_18px_40px_-18px_rgba(9,59,134,0.45)] backdrop-blur sm:right-0"
-            >
-              <div className="font-display text-2xl font-extrabold text-brand-600">4</div>
-              <div className="text-[0.65rem] font-medium uppercase tracking-wider text-ink-faint">
-                {t.hero.statTwo}
-              </div>
-            </motion.div>
           </motion.div>
         </div>
 
@@ -179,6 +191,33 @@ export default function Hero({ started }: { started: boolean }) {
         </motion.div>
       </div>
     </section>
+  );
+}
+
+// Stroke-only brand mark drifting slowly in the hero background.
+function DriftingMark({
+  className = "",
+  duration,
+  drift,
+  rotate,
+  delay = 0,
+}: {
+  className?: string;
+  duration: number;
+  drift: number;
+  rotate: number;
+  delay?: number;
+}) {
+  return (
+    <motion.svg
+      viewBox={MARK_VIEWBOX}
+      className={`absolute h-auto ${className}`}
+      animate={{ y: [0, drift, 0], rotate: [0, rotate, 0] }}
+      transition={{ duration, delay, repeat: Infinity, ease: "easeInOut" }}
+    >
+      <path d={MARK_PATH_A} fill="none" stroke="#297BF5" strokeWidth="1.4" opacity="0.1" />
+      <path d={MARK_PATH_B} fill="none" stroke="#297BF5" strokeWidth="1.4" opacity="0.1" />
+    </motion.svg>
   );
 }
 
