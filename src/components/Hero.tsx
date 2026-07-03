@@ -48,8 +48,8 @@ export default function Hero({ started }: { started: boolean }) {
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
         <DriftingMark className="left-[4%] top-[18%] w-28" duration={26} drift={26} rotate={10} />
         <DriftingMark className="right-[8%] top-[8%] w-40" duration={34} drift={-32} rotate={-8} delay={3} />
-        <DriftingMark className="left-[34%] top-[64%] w-20" duration={22} drift={20} rotate={14} delay={6} />
-        <DriftingMark className="right-[26%] top-[72%] w-24" duration={30} drift={-24} rotate={-12} delay={1.5} />
+        <DriftingMark className="left-[34%] top-[64%] w-20 hidden sm:block" duration={22} drift={20} rotate={14} delay={6} />
+        <DriftingMark className="right-[26%] top-[72%] w-24 hidden sm:block" duration={30} drift={-24} rotate={-12} delay={1.5} />
         <DriftingMark className="left-[14%] top-[84%] w-32 hidden lg:block" duration={38} drift={28} rotate={6} delay={9} />
       </div>
 
@@ -132,7 +132,7 @@ export default function Hero({ started }: { started: boolean }) {
                 }}
                 className="w-[76%]"
               >
-                <LogoMark className="h-auto w-full drop-shadow-[0_20px_45px_rgba(41,123,245,0.35)]" />
+                <LogoMark className="h-auto w-full" />
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, y: 14 }}

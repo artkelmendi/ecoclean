@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useLang } from "@/lib/i18n";
 
@@ -15,7 +15,22 @@ export default function Process() {
     offset: ["start start", "end end"],
   });
 
-  const x = useTransform(scrollYProgress, [0.12, 0.95], ["0%", "-62%"]);
+  // The track overflows its container, so percentage-based x is wrong
+  // (% resolves against the container width, not the card row). Measure
+  // the real overflow in pixels so the slide always ends on the last card.
+  const [maxShift, setMaxShift] = useState(0);
+  useEffect(() => {
+    const measure = () => {
+      const el = trackRef.current;
+      if (!el) return;
+      setMaxShift(Math.max(0, el.scrollWidth - window.innerWidth + 24));
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  const x = useTransform(scrollYProgress, [0.12, 0.95], [0, -maxShift]);
   const barW = useTransform(scrollYProgress, [0.1, 0.95], ["0%", "100%"]);
 
   return (

@@ -1,8 +1,7 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "motion/react";
-import { useState } from "react";
 import { useLang } from "@/lib/i18n";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -11,7 +10,32 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 export default function Technology() {
   const { t } = useLang();
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [active, setActive] = useState(0);
+
+  // Don't compete with the hero for bandwidth/decoding on first paint:
+  // pick the right size for the device, load nothing until the section
+  // approaches, and pause again once it's far off-screen.
+  const [videoSrc, setVideoSrc] = useState<string | null>(null);
+  useEffect(() => {
+    const small = window.matchMedia("(max-width: 767px)").matches;
+    setVideoSrc(`${BASE}/video/${small ? "machine-small.mp4" : "machine.mp4"}`);
+  }, []);
+
+  useEffect(() => {
+    const vid = videoRef.current;
+    const container = containerRef.current;
+    if (!vid || !container || !videoSrc) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) vid.play().catch(() => {});
+        else vid.pause();
+      },
+      { rootMargin: "50% 0px" }
+    );
+    io.observe(container);
+    return () => io.disconnect();
+  }, [videoSrc]);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -36,14 +60,14 @@ export default function Technology() {
           className="relative h-full w-full overflow-hidden"
         >
           <video
+            ref={videoRef}
             className="absolute inset-0 h-full w-full object-cover"
-            src={`${BASE}/video/machine.mp4`}
+            src={videoSrc ?? undefined}
             poster={`${BASE}/img/machine-poster.jpg`}
-            autoPlay
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="none"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#04122B]/85 via-[#04122B]/30 to-[#04122B]/40" />
 
