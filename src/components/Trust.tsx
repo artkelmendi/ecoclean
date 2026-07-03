@@ -13,11 +13,11 @@ export default function Trust() {
 
   return (
     <section className="relative overflow-hidden bg-ink py-24 text-white sm:py-32">
-      {/* subtle blue aurora */}
+      {/* subtle blue aurora — gradient only, no blur filter (iOS perf) */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/4 h-[30rem] w-[40rem] rounded-full opacity-25 blur-3xl"
-        style={{ background: "radial-gradient(closest-side, #297BF5, transparent)" }}
+        className="pointer-events-none absolute -top-40 left-1/4 h-[30rem] w-[40rem] rounded-full opacity-25"
+        style={{ background: "radial-gradient(closest-side, rgba(41,123,245,0.9), rgba(41,123,245,0.25) 55%, transparent 78%)" }}
       />
       <div ref={ref} className="container-site relative">
         <motion.div

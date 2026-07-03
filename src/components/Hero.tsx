@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { useLang } from "@/lib/i18n";
 import { LogoMark, MARK_PATH_A, MARK_PATH_B, MARK_VIEWBOX } from "./Logo";
@@ -13,6 +13,13 @@ const SPIN_COOLDOWN_MS = 2800; // one hover-spin at a time; no retrigger mid-ani
 
 export default function Hero({ started }: { started: boolean }) {
   const { t } = useLang();
+
+  // On phones the drifting background marks stay static — continuous
+  // animations compete with the entry animations on weaker GPUs.
+  const [drift, setDrift] = useState(true);
+  useEffect(() => {
+    setDrift(window.matchMedia("(min-width: 768px)").matches);
+  }, []);
 
   // Entry: mark arrives spinning fast (-720°) and settles at 0°.
   // Hover: adds one +360° turn, guarded by a cooldown so it can't stack or glitch.
@@ -34,23 +41,23 @@ export default function Hero({ started }: { started: boolean }) {
 
   return (
     <section className="relative overflow-hidden pb-16 pt-36 sm:pt-44">
-      {/* soft brand glow backdrop */}
+      {/* soft brand glow backdrop — pure gradient, no filter (blur filters jank iOS) */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-64 left-1/2 h-[42rem] w-[68rem] -translate-x-1/2 rounded-full opacity-60 blur-3xl"
+        className="pointer-events-none absolute -top-64 left-1/2 h-[42rem] w-[68rem] -translate-x-1/2 rounded-full opacity-60"
         style={{
           background:
-            "radial-gradient(closest-side, rgba(41,123,245,0.16), rgba(41,123,245,0.05) 60%, transparent)",
+            "radial-gradient(closest-side, rgba(41,123,245,0.14), rgba(41,123,245,0.04) 55%, transparent 75%)",
         }}
       />
 
       {/* drifting stroked logo outlines */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <DriftingMark className="left-[4%] top-[18%] w-28" duration={26} drift={26} rotate={10} />
-        <DriftingMark className="right-[8%] top-[8%] w-40" duration={34} drift={-32} rotate={-8} delay={3} />
-        <DriftingMark className="left-[34%] top-[64%] w-20 hidden sm:block" duration={22} drift={20} rotate={14} delay={6} />
-        <DriftingMark className="right-[26%] top-[72%] w-24 hidden sm:block" duration={30} drift={-24} rotate={-12} delay={1.5} />
-        <DriftingMark className="left-[14%] top-[84%] w-32 hidden lg:block" duration={38} drift={28} rotate={6} delay={9} />
+        <DriftingMark animated={drift} className="left-[4%] top-[18%] w-28" duration={26} drift={26} rotate={10} />
+        <DriftingMark animated={drift} className="right-[8%] top-[8%] w-40" duration={34} drift={-32} rotate={-8} delay={3} />
+        <DriftingMark animated={drift} className="left-[34%] top-[64%] w-20 hidden sm:block" duration={22} drift={20} rotate={14} delay={6} />
+        <DriftingMark animated={drift} className="right-[26%] top-[72%] w-24 hidden sm:block" duration={30} drift={-24} rotate={-12} delay={1.5} />
+        <DriftingMark animated={drift} className="left-[14%] top-[84%] w-32 hidden lg:block" duration={38} drift={28} rotate={6} delay={9} />
       </div>
 
       <div className="container-site relative">
@@ -111,11 +118,11 @@ export default function Hero({ started }: { started: boolean }) {
             transition={{ delay: 0.55, duration: 1.1, ease }}
             className="relative mx-auto flex aspect-square w-full max-w-[24rem] items-center justify-center"
           >
-            {/* soft glow behind the mark */}
+            {/* soft glow behind the mark — gradient only, no blur filter */}
             <div
               aria-hidden
-              className="absolute inset-[20%] rounded-full blur-3xl"
-              style={{ background: "radial-gradient(closest-side, rgba(41,123,245,0.18), transparent)" }}
+              className="absolute inset-[8%] rounded-full"
+              style={{ background: "radial-gradient(closest-side, rgba(41,123,245,0.16), rgba(41,123,245,0.05) 60%, transparent 78%)" }}
             />
 
             {/* the swirl mark: spins in fast, settles, and does one guarded spin on hover */}
@@ -201,19 +208,21 @@ function DriftingMark({
   drift,
   rotate,
   delay = 0,
+  animated = true,
 }: {
   className?: string;
   duration: number;
   drift: number;
   rotate: number;
   delay?: number;
+  animated?: boolean;
 }) {
   return (
     <motion.svg
       viewBox={MARK_VIEWBOX}
       className={`absolute h-auto ${className}`}
-      animate={{ y: [0, drift, 0], rotate: [0, rotate, 0] }}
-      transition={{ duration, delay, repeat: Infinity, ease: "easeInOut" }}
+      animate={animated ? { y: [0, drift, 0], rotate: [0, rotate, 0] } : { y: 0, rotate: 0 }}
+      transition={{ duration, delay, repeat: animated ? Infinity : 0, ease: "easeInOut" }}
     >
       <path d={MARK_PATH_A} fill="none" stroke="#297BF5" strokeWidth="1.4" opacity="0.1" />
       <path d={MARK_PATH_B} fill="none" stroke="#297BF5" strokeWidth="1.4" opacity="0.1" />
