@@ -28,119 +28,153 @@ export default function Hero({ started }: { started: boolean }) {
             "radial-gradient(closest-side, rgba(41,123,245,0.16), rgba(41,123,245,0.05) 60%, transparent)",
         }}
       />
-      {/* faint giant watermark of the mark, Pitch-style oversized brand element */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute -right-40 -top-24 hidden opacity-[0.05] lg:block"
-        initial={{ rotate: -18, scale: 0.9 }}
-        animate={started ? { rotate: 0, scale: 1 } : {}}
-        transition={{ duration: 1.6, ease }}
-      >
-        <LogoMark className="h-[36rem] w-auto" />
-      </motion.div>
 
       <div className="container-site relative">
-        <motion.p {...stagger(0)} className="eyebrow">
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand-500" />
-          {t.hero.eyebrow}
-        </motion.p>
+        <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
+          {/* left: copy */}
+          <div>
+            <motion.p {...stagger(0)} className="eyebrow">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand-500" />
+              {t.hero.eyebrow}
+            </motion.p>
 
-        <h1 className="h-display mt-6 max-w-4xl text-[clamp(2.8rem,7.2vw,5.6rem)] leading-[0.98]">
-          <span className="block overflow-hidden">
-            <motion.span className="block" {...stagger(1)}>
-              {t.hero.titleA}
-            </motion.span>
-          </span>
-          <span className="block overflow-hidden">
-            <motion.span className="block text-brand-500" {...stagger(2)}>
-              {t.hero.titleB}
-            </motion.span>
-          </span>
-        </h1>
-
-        <motion.p
-          {...stagger(3)}
-          className="mt-7 max-w-xl text-lg leading-relaxed text-ink-soft"
-        >
-          {t.hero.sub}
-        </motion.p>
-
-        <motion.div {...stagger(4)} className="mt-9 flex flex-wrap gap-3.5">
-          <a href="#kontakti" className="btn-primary">
-            {t.hero.ctaPrimary}
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <path d="M5 12h14m0 0-6-6m6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
-          <a href="#teknologjia" className="btn-ghost">
-            {t.hero.ctaSecondary}
-          </a>
-        </motion.div>
-
-        {/* video card */}
-        <motion.div
-          initial={{ y: 90, opacity: 0, scale: 0.96 }}
-          animate={started ? { y: 0, opacity: 1, scale: 1 } : {}}
-          transition={{ delay: 0.75, duration: 1.1, ease }}
-          className="relative mt-16"
-        >
-          <div className="noise relative overflow-hidden rounded-4xl shadow-[0_40px_90px_-30px_rgba(9,59,134,0.45)]">
-            <video
-              className="aspect-[16/8] w-full object-cover"
-              src={`${BASE}/video/machine-small.mp4`}
-              poster={`${BASE}/img/machine-poster.jpg`}
-              autoPlay
-              muted
-              loop
-              playsInline
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#062A61]/60 via-transparent to-transparent" />
-            <div className="absolute bottom-5 left-5 flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-display text-[0.8rem] font-medium text-white backdrop-blur-md">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-300 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-200" />
+            <h1 className="h-display mt-6 text-[clamp(2.8rem,6.4vw,5.2rem)] leading-[0.98]">
+              <span className="block overflow-hidden">
+                <motion.span className="block" {...stagger(1)}>
+                  {t.hero.titleA}
+                </motion.span>
               </span>
-              {t.hero.videoChip}
-            </div>
+              <span className="block overflow-hidden">
+                <motion.span className="block text-brand-500" {...stagger(2)}>
+                  {t.hero.titleB}
+                </motion.span>
+              </span>
+            </h1>
+
+            <motion.p
+              {...stagger(3)}
+              className="mt-7 max-w-xl text-lg leading-relaxed text-ink-soft"
+            >
+              {t.hero.sub}
+            </motion.p>
+
+            <motion.div {...stagger(4)} className="mt-9 flex flex-wrap items-center gap-3.5">
+              <a href="#kontakti" className="btn-primary">
+                {t.hero.ctaPrimary}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+                  <path d="M5 12h14m0 0-6-6m6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+              <a href="#teknologjia" className="btn-ghost">
+                {t.hero.ctaSecondary}
+              </a>
+              <a
+                href="https://www.instagram.com/ecoclean_corporation/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram — @ecoclean_corporation"
+                className="inline-flex h-[52px] w-[52px] items-center justify-center rounded-full border border-ink/10 bg-white text-ink-soft transition-all duration-300 hover:scale-105 hover:border-brand-300 hover:text-brand-600"
+              >
+                <InstagramIcon className="h-5 w-5" />
+              </a>
+            </motion.div>
+          </div>
+
+          {/* right: the living brand mark */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={started ? { opacity: 1, scale: 1 } : {}}
+            transition={{ delay: 0.55, duration: 1.1, ease }}
+            className="relative mx-auto flex aspect-square w-full max-w-[26rem] items-center justify-center"
+          >
+            {/* orbit rings */}
+            <div aria-hidden className="absolute inset-0 rounded-full border border-brand-100" />
+            <div aria-hidden className="absolute inset-[12%] rounded-full border border-dashed border-brand-200/70" />
+            <motion.div
+              aria-hidden
+              className="absolute inset-0"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            >
+              <span className="absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-400" />
+              <span className="absolute bottom-[6%] right-[12%] h-2 w-2 rounded-full bg-brand-200" />
+            </motion.div>
+
+            {/* glow */}
+            <div
+              aria-hidden
+              className="absolute inset-[18%] rounded-full blur-2xl"
+              style={{ background: "radial-gradient(closest-side, rgba(41,123,245,0.25), transparent)" }}
+            />
+
+            {/* the spinning swirl mark — same motion language as the intro */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+              className="relative w-[52%]"
+            >
+              <LogoMark className="h-auto w-full drop-shadow-[0_20px_45px_rgba(41,123,245,0.35)]" />
+            </motion.div>
 
             {/* floating stat chips */}
-            <div className="absolute right-5 top-5 hidden flex-col gap-2.5 sm:flex">
-              <div className="rounded-2xl bg-white/90 px-5 py-3 text-center shadow-lg backdrop-blur">
-                <div className="font-display text-2xl font-extrabold text-brand-600">24h</div>
-                <div className="text-[0.7rem] font-medium uppercase tracking-wider text-ink-faint">
-                  {t.hero.statOne}
-                </div>
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -left-2 top-[16%] rounded-2xl border border-ink/5 bg-white/90 px-5 py-3 text-center shadow-[0_18px_40px_-18px_rgba(9,59,134,0.45)] backdrop-blur sm:left-0"
+            >
+              <div className="font-display text-2xl font-extrabold text-brand-600">24h</div>
+              <div className="text-[0.65rem] font-medium uppercase tracking-wider text-ink-faint">
+                {t.hero.statOne}
               </div>
-              <div className="rounded-2xl bg-white/90 px-5 py-3 text-center shadow-lg backdrop-blur">
-                <div className="font-display text-2xl font-extrabold text-brand-600">4</div>
-                <div className="text-[0.7rem] font-medium uppercase tracking-wider text-ink-faint">
-                  {t.hero.statTwo}
-                </div>
+            </motion.div>
+            <motion.div
+              animate={{ y: [0, 12, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
+              className="absolute -right-2 bottom-[14%] rounded-2xl border border-ink/5 bg-white/90 px-5 py-3 text-center shadow-[0_18px_40px_-18px_rgba(9,59,134,0.45)] backdrop-blur sm:right-0"
+            >
+              <div className="font-display text-2xl font-extrabold text-brand-600">4</div>
+              <div className="text-[0.65rem] font-medium uppercase tracking-wider text-ink-faint">
+                {t.hero.statTwo}
               </div>
-            </div>
-          </div>
-        </motion.div>
+            </motion.div>
+          </motion.div>
+        </div>
 
-        {/* trusted-by strip */}
+        {/* trusted-by strip with real emblems */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={started ? { opacity: 1 } : {}}
-          transition={{ delay: 1.1, duration: 0.9 }}
-          className="mt-12 flex flex-col items-center gap-5 sm:flex-row sm:justify-between"
+          initial={{ opacity: 0, y: 30 }}
+          animate={started ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 1.05, duration: 0.9, ease }}
+          className="mt-20 rounded-4xl border border-ink/5 bg-mist/70 px-7 py-6"
         >
-          <span className="text-[0.75rem] font-semibold uppercase tracking-[0.22em] text-ink-faint">
-            {t.hero.trustLabel}
-          </span>
-          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3 font-display text-[0.95rem] font-semibold text-ink-soft/80">
-            <span className="flex items-center gap-2">
-              <ShieldIcon /> {t.hero.trustPolice}
+          <div className="flex flex-col items-center gap-6 lg:flex-row lg:justify-between">
+            <span className="text-[0.75rem] font-semibold uppercase tracking-[0.22em] text-ink-faint">
+              {t.hero.trustLabel}
             </span>
-            <span className="flex items-center gap-2">
-              <StarShieldIcon /> {t.hero.trustFsk}
-            </span>
-            <span className="flex items-center gap-2">
-              <HotelIcon /> {t.hero.trustHotels}
-            </span>
+            <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+              <span className="flex items-center gap-3 font-display text-[0.95rem] font-semibold text-ink-soft">
+                <img
+                  src={`${BASE}/img/police-logo.png`}
+                  alt="Police of Kosovo"
+                  className="h-11 w-11 object-contain"
+                />
+                {t.hero.trustPolice}
+              </span>
+              <span className="flex items-center gap-3 font-display text-[0.95rem] font-semibold text-ink-soft">
+                <img
+                  src={`${BASE}/img/fsk-logo.svg`}
+                  alt="Kosovo Security Force"
+                  className="h-11 w-11 object-contain"
+                />
+                {t.hero.trustFsk}
+              </span>
+              <span className="flex items-center gap-3 font-display text-[0.95rem] font-semibold text-ink-soft">
+                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-50 text-brand-500">
+                  <HotelIcon />
+                </span>
+                {t.hero.trustHotels}
+              </span>
+            </div>
           </div>
         </motion.div>
       </div>
@@ -148,28 +182,20 @@ export default function Hero({ started }: { started: boolean }) {
   );
 }
 
-function ShieldIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="text-brand-500" aria-hidden>
-      <path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-      <path d="m9 12 2 2 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function StarShieldIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="text-brand-500" aria-hidden>
-      <path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-      <path d="M12 8.5l1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2-1.6-1.5 2.2-.3 1-2z" fill="currentColor" />
-    </svg>
-  );
-}
-
 function HotelIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="text-brand-500" aria-hidden>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
       <path d="M4 21V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16M2 21h20M9 7h2m2 0h2M9 11h2m2 0h2M9 15h2m2 0h2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function InstagramIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" />
     </svg>
   );
 }

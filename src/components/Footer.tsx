@@ -1,6 +1,7 @@
 "use client";
 
 import { LogoFull, LogoMark } from "./Logo";
+import { InstagramIcon } from "./Hero";
 import { useLang } from "@/lib/i18n";
 
 export default function Footer() {
@@ -42,12 +43,13 @@ export default function Footer() {
               <li>info@ecoclean-ks.com</li>
               <li>
                 <a
-                  className="transition-colors hover:text-brand-600"
+                  className="inline-flex items-center gap-2 transition-colors hover:text-brand-600"
                   href="https://www.instagram.com/ecoclean_corporation/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Instagram
+                  <InstagramIcon className="h-4 w-4" />
+                  @ecoclean_corporation
                 </a>
               </li>
             </ul>

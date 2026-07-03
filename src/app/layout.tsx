@@ -16,9 +16,9 @@ const body = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Eco Clean — Lavanteri industriale me standarde evropiane",
+  title: "Eco Clean — Industrial laundry with European standards",
   description:
-    "Eco Clean kujdeset për tekstilet e institucioneve dhe hoteleve më të mira në Kosovë — teknologji evropiane, dezinfektim i certifikuar dhe cikël kthimi 24 orë.",
+    "Eco Clean cares for the textiles of Kosovo's leading institutions and finest hotels — European technology, certified disinfection and a 24-hour turnaround.",
   icons: {
     icon: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/favicon.svg`,
   },
@@ -28,7 +28,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="sq">
+    <html lang="en">
       <body className={`${display.variable} ${body.variable}`}>
         <LanguageProvider>{children}</LanguageProvider>
       </body>

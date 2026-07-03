@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { LogoFull } from "./Logo";
+import { InstagramIcon } from "./Hero";
 import { useLang } from "@/lib/i18n";
 
 export default function Navbar() {
@@ -70,6 +71,15 @@ export default function Navbar() {
                 </button>
               ))}
             </div>
+            <a
+              href="https://www.instagram.com/ecoclean_corporation/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram — @ecoclean_corporation"
+              className="hidden h-10 w-10 items-center justify-center rounded-full border border-ink/10 bg-white text-ink-soft transition-colors hover:border-brand-300 hover:text-brand-600 md:inline-flex"
+            >
+              <InstagramIcon className="h-[18px] w-[18px]" />
+            </a>
             <a href="#kontakti" className="btn-primary hidden !px-5 !py-2.5 text-[0.85rem] sm:inline-flex">
               {t.nav.cta}
             </a>

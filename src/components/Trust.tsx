@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
 import { useLang } from "@/lib/i18n";
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 export default function Trust() {
   const { t } = useLang();
   const ref = useRef<HTMLDivElement>(null);
@@ -42,9 +44,19 @@ export default function Trust() {
               transition={{ delay: 0.15 + i * 0.12, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="group rounded-4xl border border-white/10 bg-white/[0.04] p-8 backdrop-blur transition-colors duration-500 hover:border-brand-400/40 hover:bg-white/[0.07]"
             >
-              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-500/15 text-brand-300 transition-colors duration-500 group-hover:bg-brand-500 group-hover:text-white">
-                {i === 0 ? <BadgeIcon /> : i === 1 ? <StarIcon /> : <CrownIcon />}
-              </span>
+              {i === 0 ? (
+                <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-1.5">
+                  <img src={`${BASE}/img/police-logo.png`} alt="Police of Kosovo emblem" className="h-full w-full object-contain" />
+                </span>
+              ) : i === 1 ? (
+                <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-1.5">
+                  <img src={`${BASE}/img/fsk-logo.svg`} alt="Kosovo Security Force emblem" className="h-full w-full object-contain" />
+                </span>
+              ) : (
+                <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-500/15 text-brand-300 transition-colors duration-500 group-hover:bg-brand-500 group-hover:text-white">
+                  <CrownIcon />
+                </span>
+              )}
               <h3 className="mt-6 font-display text-xl font-bold tracking-tight">{c.name}</h3>
               <p className="mt-3 text-sm leading-relaxed text-white/55">{c.desc}</p>
             </motion.div>
@@ -100,23 +112,6 @@ function Stat({
         {label}
       </div>
     </div>
-  );
-}
-
-function BadgeIcon() {
-  return (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-      <path d="m9 12 2 2 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function StarIcon() {
-  return (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path d="M12 2l2.9 6.3 6.6.7-5 4.6 1.4 6.7L12 16.9 6.1 20.3l1.4-6.7-5-4.6 6.6-.7L12 2z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-    </svg>
   );
 }
 

@@ -285,7 +285,7 @@ const dict = {
       contactTitle: "Contact",
     },
   },
-} as const;
+};
 
 export type Dict = (typeof dict)["sq"];
 
@@ -293,10 +293,10 @@ const LangContext = createContext<{
   lang: Lang;
   t: Dict;
   setLang: (l: Lang) => void;
-}>({ lang: "sq", t: dict.sq, setLang: () => {} });
+}>({ lang: "en", t: dict.en, setLang: () => {} });
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("sq");
+  const [lang, setLangState] = useState<Lang>("en");
 
   useEffect(() => {
     const saved = localStorage.getItem("ecoclean-lang");
