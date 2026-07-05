@@ -6,7 +6,7 @@ import { LanguageProvider } from "@/lib/i18n";
 const display = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"],
   variable: "--font-display",
-  weight: ["500", "600", "700", "800"],
+  weight: ["300", "500", "600", "700", "800"],
 });
 
 const body = Inter({

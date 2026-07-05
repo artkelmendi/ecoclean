@@ -83,11 +83,11 @@ export default function Hero({ started }: { started: boolean }) {
               {/* the brand slogan, outlined like the drifting marks behind it */}
               <span className="block overflow-hidden">
                 <motion.span
-                  className="block lowercase"
+                  className="block font-light lowercase"
                   {...stagger(3)}
                   style={{
-                    WebkitTextStroke: "2px rgba(41,123,245,0.55)",
-                    color: "rgba(41,123,245,0.08)",
+                    WebkitTextStroke: "1.5px rgba(41,123,245,0.55)",
+                    color: "rgba(41,123,245,0.06)",
                   }}
                 >
                   with us.

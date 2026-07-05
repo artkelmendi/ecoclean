@@ -15,15 +15,15 @@ export default function WithUsBand() {
             eco clean
           </span>
           <span
-            className="font-display text-[clamp(2.6rem,7vw,5.5rem)] font-extrabold lowercase tracking-tight"
+            className="font-display text-[clamp(2.6rem,7vw,5.5rem)] font-light lowercase tracking-tight"
             style={{
-              WebkitTextStroke: "2px rgba(41,123,245,0.6)",
-              color: "rgba(41,123,245,0.08)",
+              WebkitTextStroke: "1.5px rgba(41,123,245,0.55)",
+              color: "rgba(41,123,245,0.06)",
             }}
           >
             with us
           </span>
-          <LogoMark className="h-[clamp(1.8rem,4.5vw,3.2rem)] w-auto" />
+          <LogoMark className="h-[clamp(1.8rem,4.5vw,3.2rem)] w-auto translate-y-[10%]" />
         </span>
       ))}
     </div>
