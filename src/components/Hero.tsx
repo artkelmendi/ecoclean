@@ -80,16 +80,29 @@ export default function Hero({ started }: { started: boolean }) {
                   {t.hero.titleB}
                 </motion.span>
               </span>
+              {/* the brand slogan, outlined like the drifting marks behind it */}
+              <span className="block overflow-hidden">
+                <motion.span
+                  className="block lowercase"
+                  {...stagger(3)}
+                  style={{
+                    WebkitTextStroke: "2px rgba(41,123,245,0.55)",
+                    color: "rgba(41,123,245,0.08)",
+                  }}
+                >
+                  with us.
+                </motion.span>
+              </span>
             </h1>
 
             <motion.p
-              {...stagger(3)}
+              {...stagger(4)}
               className="mt-7 max-w-xl text-lg leading-relaxed text-ink-soft"
             >
               {t.hero.sub}
             </motion.p>
 
-            <motion.div {...stagger(4)} className="mt-9 flex flex-wrap items-center gap-3.5">
+            <motion.div {...stagger(5)} className="mt-9 flex flex-wrap items-center gap-3.5">
               <a href="#kontakti" className="btn-primary">
                 {t.hero.ctaPrimary}
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>

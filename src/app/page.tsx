@@ -10,6 +10,7 @@ import Sectors from "@/components/Sectors";
 import Technology from "@/components/Technology";
 import Process from "@/components/Process";
 import Trust from "@/components/Trust";
+import WithUsBand from "@/components/WithUsBand";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
@@ -27,6 +28,7 @@ export default function Home() {
         <Technology />
         <Process />
         <Trust />
+        <WithUsBand />
         <Contact />
       </main>
       <Footer />
